@@ -4,7 +4,7 @@ namespace Bowling;
 
 class Game
 {
-    public const MAX_PINS_PER_FRAME = 20;
+    public const MAX_ROLLS = 21;
 
     /** @var int $score */
     private $score;
@@ -20,7 +20,7 @@ class Game
     /**
      * @return int
      */
-    public function score()
+    public function calculateScore()
     {
         return $this->score;
     }

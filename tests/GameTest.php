@@ -7,19 +7,24 @@ use PHPUnit\Framework\TestCase;
 
 class GameTest extends TestCase
 {
+    /** @var Game $game */
+    private $game;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->game = new Game();
+    }
 
     /**
      * @test
      */
     public function startGame()
     {
-        $game = new Game();
+        $this->playFor(0, 0);
 
-        for ($i = 0; $i < Game::MAX_PINS_PER_FRAME; $i++) {
-            $game->roll(0);
-        }
-
-        $this->assertEquals(0, $game->score());
+        $this->assertEquals(0, $this->game->calculateScore());
     }
 
     /**
@@ -27,12 +32,19 @@ class GameTest extends TestCase
      */
     public function pinsSum()
     {
-        $game = new Game();
+        $this->playFor(3, 2);
 
-        for ($i = 0; $i < Game::MAX_PINS_PER_FRAME; $i++) {
-            $game->roll(1);
+        $this->assertEquals(6, $this->game->calculateScore());
+    }
+
+    /**
+     * @param int $rolls
+     * @param int $pins
+     */
+    public function playFor(int $rolls, int $pins)
+    {
+        for ($i = 0; $i < $rolls; $i++) {
+            $this->game->roll($pins);
         }
-
-        $this->assertEquals(20, $game->score());
     }
 }
