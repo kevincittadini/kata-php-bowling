@@ -24,7 +24,7 @@ class GameTest extends TestCase
     public function startGame()
     {
         $this->rollMany(0, 0);
-        $this->assertEquals(0, $this->game->calculateScore());
+        $this->assertEquals(0, $this->game->calculateTotalScore());
     }
 
     /**
@@ -35,7 +35,7 @@ class GameTest extends TestCase
         $this->rollMany(8, 1);
         $this->rollFrame(1, 1);
 
-        $this->assertEquals(10, $this->game->calculateScore());
+        $this->assertEquals(10, $this->game->calculateTotalScore());
     }
 
     /**
@@ -44,7 +44,7 @@ class GameTest extends TestCase
     public function sumManyRollPins()
     {
         $this->rollMany(3, 2);
-        $this->assertEquals(6, $this->game->calculateScore());
+        $this->assertEquals(6, $this->game->calculateTotalScore());
     }
 
     /**
@@ -76,7 +76,7 @@ class GameTest extends TestCase
         $this->rollSpare();
         $this->rollFrame(3, 2);
 
-        $this->assertEquals(18, $this->game->calculateScore());
+        $this->assertEquals(18, $this->game->calculateTotalScore());
     }
 
     /**
@@ -101,7 +101,16 @@ class GameTest extends TestCase
         $this->rollStrike();
         $this->rollFrame(2, 7);
 
-        $this->assertEquals(41, $this->game->calculateScore());
+        $this->assertEquals(41, $this->game->calculateTotalScore());
+    }
+
+    /**
+     * @test
+     */
+    public function calculatePerfectGame()
+    {
+        $this->rollMany(12, Game::MAX_SCORE_PER_FRAME);
+        $this->assertEquals(Game::PERFECT_GAME_SCORE, $this->game->calculateTotalScore());
     }
 
     /**

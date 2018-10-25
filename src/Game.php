@@ -5,9 +5,10 @@ namespace Bowling;
 class Game
 {
 
-    public const MAX_ROLLS_PER_PLAYER = 21;
     public const FRAMES = 10;
+    public const PERFECT_GAME_SCORE = 300;
     public const MAX_SCORE_PER_FRAME = 10;
+    public const MAX_ROLLS_PER_PLAYER = 21;
 
     /** @var int $currentRoll */
     private $currentRoll = 0;
@@ -31,7 +32,7 @@ class Game
     /**
      * @return int
      */
-    public function calculateScore(): int
+    public function calculateTotalScore(): int
     {
         $totalScore = 0;
         $rollIndex  = 0;
@@ -39,14 +40,13 @@ class Game
         for ($frame = 0; $frame < self::FRAMES; $frame++) {
             if ($this->isStrike($rollIndex)) {
                 $totalScore += $this->calculateFrameScoreWithStrikeBonus($rollIndex);
-                $rollIndex ++;
-            }
-            else if ($this->isSpare($rollIndex)) {
+                $rollIndex++;
+            } else if ($this->isSpare($rollIndex)) {
                 $totalScore += $this->calculateFrameScoreWithSpareBonus($rollIndex);
-                $rollIndex += 2;
+                $rollIndex  += 2;
             } else {
                 $totalScore += $this->calculateFrameScore($rollIndex);
-                $rollIndex += 2;
+                $rollIndex  += 2;
             }
         }
 
@@ -79,7 +79,7 @@ class Game
      */
     public function isSpare(int $rollIndex)
     {
-        return $this->rolls[$rollIndex] + $this->rolls[$rollIndex + 1] === self::MAX_SCORE_PER_FRAME;
+        return $this->calculateFrameScore($rollIndex) === self::MAX_SCORE_PER_FRAME;
     }
 
     /**
@@ -89,7 +89,7 @@ class Game
      */
     public function calculateFrameScoreWithStrikeBonus(int $rollIndex)
     {
-        return self::MAX_SCORE_PER_FRAME + $this->rolls[$rollIndex + 1] + $this->rolls[$rollIndex + 2];
+        return self::MAX_SCORE_PER_FRAME + $this->calculateFrameScore($rollIndex + 1);
     }
 
     /**
