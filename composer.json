@@ -1,0 +1,16 @@
+{
+    "autoload": {
+        "psr-4": {
+            "Bowling\\": "src/",
+            "Bowling\\Test\\": "tests/"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "7.0.0"
+        }
+    },
+    "require": {
+        "phpunit/phpunit": "6.5.13"
+    }
+}
