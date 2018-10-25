@@ -30,11 +30,21 @@ class GameTest extends TestCase
     /**
      * @test
      */
-    public function pinsSum()
+    public function sumRollPins()
     {
         $this->playFor(3, 2);
 
         $this->assertEquals(6, $this->game->calculateScore());
+    }
+
+    /**
+     * @test
+     */
+    public function cannotRollMoreThanMaxRollsAmount()
+    {
+        $this->playFor(300, 0);
+
+        $this->assertEquals(Game::MAX_ROLLS_PER_PLAYER, $this->game->getCurrentRoll());
     }
 
     /**
