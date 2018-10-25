@@ -60,18 +60,6 @@ class GameTest extends TestCase
     /**
      * @test
      */
-    public function calculateScoreWithSpare()
-    {
-        $this->rollSpare();
-        $this->game->roll(3);
-        $this->game->roll(2);
-
-        $this->assertEquals(18, $this->game->calculateScore());
-    }
-
-    /**
-     * @test
-     */
     public function recognizeASpareFrame()
     {
         $this->game->roll(3);
@@ -81,6 +69,18 @@ class GameTest extends TestCase
         $this->game->roll(4);
 
         $this->assertTrue($this->game->isSpare(2));
+    }
+
+    /**
+     * @test
+     */
+    public function calculateScoreWithSpare()
+    {
+        $this->rollSpare();
+        $this->game->roll(3);
+        $this->game->roll(2);
+
+        $this->assertEquals(18, $this->game->calculateScore());
     }
 
     /**
