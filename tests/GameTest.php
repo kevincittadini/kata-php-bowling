@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class GameTest extends TestCase
 {
+
     /** @var Game $game */
     private $game;
 
@@ -23,7 +24,6 @@ class GameTest extends TestCase
     public function startGame()
     {
         $this->playFor(0, 0);
-
         $this->assertEquals(0, $this->game->calculateScore());
     }
 
@@ -32,8 +32,19 @@ class GameTest extends TestCase
      */
     public function sumRollPins()
     {
-        $this->playFor(3, 2);
+        $this->playFor(8, 1);
+        $this->game->roll(1);
+        $this->game->roll(1);
 
+        $this->assertEquals(10, $this->game->calculateScore());
+    }
+
+    /**
+     * @test
+     */
+    public function sumManyRollPins()
+    {
+        $this->playFor(3, 2);
         $this->assertEquals(6, $this->game->calculateScore());
     }
 
@@ -43,7 +54,6 @@ class GameTest extends TestCase
     public function cannotRollMoreThanMaxRollsAmount()
     {
         $this->playFor(300, 0);
-
         $this->assertEquals(Game::MAX_ROLLS_PER_PLAYER, $this->game->getCurrentRoll());
     }
 

@@ -22,8 +22,8 @@ class Game
             return;
         }
 
-        $this->currentRoll++;
         $this->rolls[$this->currentRoll] += $pins;
+        $this->currentRoll++;
     }
 
     /**
