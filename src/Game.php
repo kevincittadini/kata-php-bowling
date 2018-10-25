@@ -37,13 +37,17 @@ class Game
         $rollIndex  = 0;
 
         for ($frame = 0; $frame < self::FRAMES; $frame++) {
-            if ($this->isSpare($rollIndex)) {
+            if ($this->isStrike($rollIndex)) {
+                $totalScore += $this->calculateFrameScoreWithStrikeBonus($rollIndex);
+                $rollIndex ++;
+            }
+            else if ($this->isSpare($rollIndex)) {
                 $totalScore += $this->calculateFrameScoreWithSpareBonus($rollIndex);
+                $rollIndex += 2;
             } else {
                 $totalScore += $this->calculateFrameScore($rollIndex);
+                $rollIndex += 2;
             }
-
-            $rollIndex += 2;
         }
 
         return $totalScore;
@@ -57,6 +61,17 @@ class Game
         return $this->currentRoll;
     }
 
+
+    /**
+     * @param int $rollIndex
+     *
+     * @return bool
+     */
+    public function isStrike(int $rollIndex)
+    {
+        return $this->rolls[$rollIndex] === self::MAX_SCORE_PER_FRAME;
+    }
+
     /**
      * @param int $rollIndex
      *
@@ -65,6 +80,16 @@ class Game
     public function isSpare(int $rollIndex)
     {
         return $this->rolls[$rollIndex] + $this->rolls[$rollIndex + 1] === self::MAX_SCORE_PER_FRAME;
+    }
+
+    /**
+     * @param int $rollIndex
+     *
+     * @return int|mixed
+     */
+    public function calculateFrameScoreWithStrikeBonus(int $rollIndex)
+    {
+        return self::MAX_SCORE_PER_FRAME + $this->rolls[$rollIndex + 1] + $this->rolls[$rollIndex + 2];
     }
 
     /**
